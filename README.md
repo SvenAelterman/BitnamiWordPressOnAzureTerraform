@@ -15,3 +15,10 @@ Where available, this deployment uses the [Azure Verified Modules](https://aka.m
 1. Run `terraform plan`.
 1. Review the planned deployment.
 1. Run `terraform apply`.
+
+## Architecture Diagram
+
+The faint icons at the bottom should be considered for production deployments but are not implemented by this IaC.
+
+![image](https://github.com/user-attachments/assets/ffaab0d3-257c-4eae-94be-b8a35da74e6a)
+
