@@ -138,13 +138,6 @@ module "appservice_test" {
   site_config = {
     http2_enabled          = true
     vnet_route_all_enabled = true
-
-    # application_stack = {
-    #   docker = {
-    #     docker_image_name   = "bitnami/wordpress:6.7.2" // TODO: Variable for container image
-    #     docker_registry_url = "https://index.docker.io" // TODO: Variable or local for container registry URL
-    #   }
-    # }
   }
 
   app_settings = {
