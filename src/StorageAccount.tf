@@ -24,11 +24,13 @@ module "storage" {
   }
 
   role_assignments = {
+    // Allow the current user to access the storage account to read the contents of the WordPress file share
     "current_user" = {
       principal_id               = data.azurerm_client_config.current.object_id
       role_definition_id_or_name = "Storage File Data Privileged Contributor"
       principal_type             = "User"
     }
+    // There is no role assignment for the managed identity because the App Service will use the storage account key to mount the file share
   }
 
   shares = {
