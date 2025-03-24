@@ -75,3 +75,5 @@ variable "deploy_test_appservice" {
   description = "Deploy a test App Service to the App Service Plan."
   default     = false
 }
+
+// TODO: Opt-in variable to create role assignments for the current user
