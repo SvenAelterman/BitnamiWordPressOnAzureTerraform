@@ -67,7 +67,7 @@ variable "tags" {
 
 variable "secret_expiration_date_seed" {
   type        = string
-  description = "The seed value for the secret expiration date."
+  description = "The seed value for the secret expiration date. Set it to today's YYYY-MM-DDT00:00:00Z."
 }
 
 variable "deploy_test_appservice" {
