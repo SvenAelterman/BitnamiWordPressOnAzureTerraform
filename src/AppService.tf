@@ -100,6 +100,9 @@ module "appservice" {
       mount_path   = "/bitnami/wordpress"
     }
   }
+
+  // Add an explicit dependency on the MySQL module because otherwise the App Service module starts before the database is created or before secure transport is OFF
+  depends_on = [module.mysql]
 }
 
 module "appservice_test" {
