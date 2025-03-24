@@ -1,12 +1,11 @@
 module "db_rg" {
-  source  = "Azure/avm-res-resources-resourcegroup/azurerm"
-  version = "~>0.2.1"
+  source           = "Azure/avm-res-resources-resourcegroup/azurerm"
+  version          = "~>0.2.1"
+  enable_telemetry = var.enable_telemetry
 
   name     = replace(local.naming_structure, "{resourceType}", "rg-data")
   location = var.location
   tags     = var.tags
-
-  enable_telemetry = var.enable_telemetry
 }
 
 module "mysql" {
@@ -19,7 +18,7 @@ module "mysql" {
   resource_group_name = module.db_rg.name
   tags                = var.tags
 
-  sku_name      = "GP_Standard_D2ds_v4"
+  sku_name      = "GP_Standard_D4ads_v5"
   zone          = "1"
   mysql_version = "8.0.21"
 
@@ -29,7 +28,7 @@ module "mysql" {
   }
 
   delegated_subnet_id = module.vnet.subnets["MySQLSubnet"].resource_id
-  private_dns_zone_id = module.mysql_private_dns_zone.resource_id
+  private_dns_zone_id = module.mysql_private_dns_zone.resource_id // This might fail if the virtual network link is not ready
 
   administrator_login    = "dbadmin"
   administrator_password = random_password.mysql_random_password.result
@@ -37,8 +36,8 @@ module "mysql" {
   databases = {
     "WordPress" = {
       name      = local.wp_database_name
-      charset   = "utf8"
-      collation = "utf8_general_ci"
+      charset   = "utf8mb4"
+      collation = "utf8mb4_general_ci"
     }
   }
 
@@ -49,6 +48,9 @@ module "mysql" {
       value = "OFF"
     }
   }
+
+  // Add an explicit dependency on the DNS module because otherwise the MySQL module starts before the virtual network link is ready
+  depends_on = [module.mysql_private_dns_zone]
 }
 
 resource "random_password" "mysql_random_password" {
