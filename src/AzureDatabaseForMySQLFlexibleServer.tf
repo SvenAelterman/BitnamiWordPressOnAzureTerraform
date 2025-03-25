@@ -47,6 +47,11 @@ module "mysql" {
       name  = "require_secure_transport"
       value = "OFF"
     }
+    // TODO: Review/test
+    # sql_generate_invisible_primary_key_off = {
+    #   name  = "sql_generate_invisible_primary_key"
+    #   value = "OFF"
+    # }
   }
 
   // Add an explicit dependency on the DNS module because otherwise the MySQL module starts before the virtual network link is ready
