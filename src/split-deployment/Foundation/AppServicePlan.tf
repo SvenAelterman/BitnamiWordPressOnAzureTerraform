@@ -18,8 +18,9 @@ module "asp" {
   resource_group_name = module.shared_app_rg.name
   tags                = var.tags
 
-  os_type  = "Linux"
-  sku_name = "P1v3" // TODO: Variable for SKU
+  os_type      = "Linux"
+  sku_name     = "P1v3" // TODO: Variable for SKU
+  worker_count = 1
 
   zone_balancing_enabled = var.enable_high_availability ? true : false
 }
