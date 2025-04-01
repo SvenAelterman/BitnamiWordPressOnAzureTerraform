@@ -1,6 +1,7 @@
 resource "azurerm_traffic_manager_profile" "profile" {
   name                = replace(local.naming_structure, "{resourceType}", "traf")
   resource_group_name = module.app_rg.name
+  tags                = var.tags
 
   traffic_routing_method = "Priority"
 
