@@ -23,6 +23,7 @@ locals {
 variable "workload_name" {
   type        = string
   description = "The name of the workload to be deployed."
+
   validation {
     condition     = length(var.workload_name) <= local.workload_name_max_length
     error_message = "The maximum length is ${local.workload_name_max_length}, which is based on some other inputs. '${var.workload_name}' is ${length(var.workload_name)} characters long."
@@ -77,12 +78,6 @@ variable "tags" {
 variable "secret_expiration_date_seed" {
   type        = string
   description = "The seed value for the secret expiration date. Set it to today's YYYY-MM-DDT00:00:00Z."
-}
-
-variable "deploy_test_appservice" {
-  type        = bool
-  description = "Deploy a test App Service to the App Service Plan."
-  default     = false
 }
 
 // TODO: Opt-in variable to create role assignments for the current user
