@@ -8,6 +8,7 @@
     "dbformysql",
     "flexibleserver",
     "managedidentity",
+    "misconfig",
     "MULTISITE",
     "networksecuritygroup",
     "privatednszone",

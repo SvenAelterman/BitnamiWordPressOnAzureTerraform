@@ -1,0 +1,11 @@
+misconfiguration:
+  terraform:
+    vars:
+      - src/all-in-one/trivy.tfvars
+      - src/bootstrap/trivy.tfvars
+      - src/split-deployment/Foundation/trivy.tfvars
+      - src/split-deployment/Site/trivy.tfvars
+
+scan:
+  scanners:
+    - misconfig
