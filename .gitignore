@@ -5,3 +5,6 @@
 
 *.tfvars
 !trivy.tfvars
+
+backend_*.hcl
+backend.tf

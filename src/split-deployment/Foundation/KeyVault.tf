@@ -8,12 +8,15 @@ module "key_vault" {
   resource_group_name = module.shared_app_rg.name
   tags                = var.tags
 
-  tenant_id = data.azurerm_client_config.current.tenant_id
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  purge_protection_enabled   = true
+  soft_delete_retention_days = 7
 
   secrets = {
     dbadmin_password = {
       name            = local.dbadmin_password_kv_secret_name
       expiration_date = local.secret_expiration_date
+      content_type    = "Password for the MySQL dbadmin user"
     }
   }
 
