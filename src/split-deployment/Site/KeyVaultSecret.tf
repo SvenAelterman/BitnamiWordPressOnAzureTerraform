@@ -11,5 +11,6 @@ resource "azurerm_key_vault_secret" "wp_admin_password" {
   value        = resource.random_password.wpadmin_random_password.result
   key_vault_id = data.azurerm_key_vault.key_vault.id
 
+  content_type    = "The wpadmin password for the WordPress site ${var.site_name}."
   expiration_date = local.secret_expiration_date
 }
