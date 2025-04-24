@@ -6,8 +6,6 @@ In order to separate the Terraform state for different sites, you will use [Terr
 
 After running the bootstrap deployment, you'll find a backend.tf file in this folder that does not specify a key. If you don't want to run the bootstrap, you can create a backend.tf file manually.
 
-> Note: this approach will not work without remote state. A possible alternative is to use workspaces.
-
 ```hcl
 terraform {
   backend "azurerm" {
