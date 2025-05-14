@@ -35,3 +35,7 @@ The faint icons at the bottom should be considered for production deployments bu
 A more sophisticated deployment that supports hosting multiple WordPress sites on a single App Service Plan is also provided.
 
 Refer to the [split deployment README](./src/split-deployment/README.md) for more details.
+
+## Aquasec Trivy support
+
+To check for misconfigurations in the Terraform using [Trivy from Aqua Security](https://www.aquasec.com/products/trivy/), run `trivy fs .` in the root of the repo.
