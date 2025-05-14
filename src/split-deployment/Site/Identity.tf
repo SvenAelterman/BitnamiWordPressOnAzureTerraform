@@ -9,6 +9,13 @@ module "id" {
   tags                = var.tags
 }
 
+// HACK: Wait 30 seconds after the user-assigned managed identity is created
+// before assigning it the Key Vault Secrets User role on the shared Key Vault.
+resource "time_sleep" "wait_30_seconds" {
+  create_duration = "30s"
+  depends_on      = [module.id]
+}
+
 // Assign the UAMI the Key Vault Secrets User role on the shared Key Vault
 module "id_key_vault_role_assignment" {
   source           = "Azure/avm-res-authorization-roleassignment/azurerm"
@@ -22,6 +29,7 @@ module "id_key_vault_role_assignment" {
         kvsu = {
           role_definition                  = "kvsu"
           user_assigned_managed_identities = ["id"]
+          principal_type                   = "ServicePrincipal"
         }
       }
     }
@@ -30,5 +38,5 @@ module "id_key_vault_role_assignment" {
   user_assigned_managed_identities_by_principal_id = { id = module.id.resource.principal_id }
   role_definitions                                 = { kvsu = { name = "Key Vault Secrets User" } }
 
-  depends_on = [module.id]
+  depends_on = [module.id, time_sleep.wait_30_seconds]
 }
