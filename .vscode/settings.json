@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "appservice",
+    "azuread",
     "Bitnami",
     "Bitnami's",
     "centralus",
@@ -16,6 +17,7 @@
     "roleassignment",
     "serverfarm",
     "storageaccount",
+    "tfstate",
     "tfvars",
     "userassignedidentity",
     "virtualnetwork",
