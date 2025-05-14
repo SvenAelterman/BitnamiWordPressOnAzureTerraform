@@ -4,7 +4,7 @@
 
 In order to separate the Terraform state for different sites, you will use [Terraform workspaces](https://developer.hashicorp.com/terraform/cli/workspaces). Each workspace will have its own state file.
 
-After running the bootstrap deployment, you'll find a backend.tf file in this folder that does not specify a key. If you don't want to run the bootstrap, you can create a backend.tf file manually.
+After running the bootstrap deployment, you'll find a backend.tf file in this folder. If you don't want to run the bootstrap, you can create a backend.tf file manually.
 
 ```hcl
 terraform {
@@ -12,30 +12,23 @@ terraform {
     resource_group_name  = "wptfstate-demo-rg-cnc-01"
     storage_account_name = "wptfstatedemostcnc01"
     container_name       = "tfstate"
-    
+    key                  = "site.tfstate"
     use_azuread_auth     = true
   }
 }
 ```
 
-For each site you wish to deploy, create an HCL file that simply specifies the key and nothing else. See below more more details.
-
 ### First site
 
-Assume your first WordPress site is for the *math* department. Create a *backend_math.hcl* file (the name is entirely up to you, but you might want to organize them where the filename matches the value you'll use for the `site_name` variable):
+Assume your first WordPress site is for the *math* department.
 
-```hcl
-# File: backend_math.hcl
-
-key = "math.tfstate"
-```
-
-Create a variables file, if desired:
+Create a variables file, if desired. The name is entirely up to you, but you might want to organize them where the filename matches the value you'll use for the `site_name` variable:
 
 ```hcl
 # File: vars.math.tfvars
 
 site_name = "math"
+# ...
 # Specify more variables here
 ```
 
@@ -43,29 +36,21 @@ For consistency, you should not use the Terraform *default* workspace. Each site
 
 `terraform workspace new math`
 
-When running `terraform init`, you will then specify the HCL file as backend configuration:
-
-`terraform init -backend-config="backend_math.hcl"`
-
-This will create the backend configuration by merging the backend.tf file (which is the same for each site you'll deploy) and the .hcl file you specified.
+Run `terraform init`. This will create the backend configuration.
 
 When running `terraform [plan|apply]`, you will specify the variables file:
 
 `terraform [plan|apply] -var-file="vars.math.tfvars"`
 
+This will create a state file with a name like `site.tfstateenv:math
+
 ### Site n
 
 When you create another site, you will create a new HCL file containing backend config (in addition to presumably creating a different tfvars file too):
 
-```hcl
-# File: backend_site2.hcl
+Create a new workspace:
 
-key = "site2.tfstate"
-```
-
-When you run `terraform init` next, you'll use this command:
-
-`terraform init -backend-config="backend_site2.hcl" -reconfigure`
+`terraform workspace new site2`
 
 Then, you can create the next site like this:
 
