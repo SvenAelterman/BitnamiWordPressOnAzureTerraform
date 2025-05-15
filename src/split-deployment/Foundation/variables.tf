@@ -80,4 +80,16 @@ variable "secret_expiration_date_seed" {
   description = "The seed value for the secret expiration date. Set it to today's YYYY-MM-DDT00:00:00Z."
 }
 
+variable "custom_image_tag" {
+  type        = string
+  description = "The tag for the custom image to be used in the App Service."
+  default     = "6.7.2"
+}
+
+variable "custom_image_name" {
+  type        = string
+  description = "The name of the custom image to be used in the App Service."
+  default     = "this-org/wordpress"
+}
+
 // TODO: Opt-in variable to create role assignments for the current user
