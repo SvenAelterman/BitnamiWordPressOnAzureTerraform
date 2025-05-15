@@ -27,7 +27,8 @@ Create a variables file, if desired. The name is entirely up to you, but you mig
 ```hcl
 # File: vars.math.tfvars
 
-site_name = "math"
+site_name                   = "math"
+use_foundation_remote_state = true
 # ...
 # Specify more variables here
 ```

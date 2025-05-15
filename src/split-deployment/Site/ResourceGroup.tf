@@ -4,6 +4,6 @@ module "app_rg" {
   enable_telemetry = var.enable_telemetry
 
   name     = replace(local.naming_structure, "{resourceType}", "rg")
-  location = var.location
+  location = local.location
   tags     = var.tags
 }
