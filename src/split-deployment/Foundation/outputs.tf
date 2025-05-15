@@ -56,3 +56,11 @@ output "container_registry_name" {
 output "container_registry_resource_group_name" {
   value = module.container_registry.resource.resource_group_name
 }
+
+output "subscription_id" {
+  value = data.azurerm_client_config.current.subscription_id
+}
+
+output "location" {
+  value = var.location
+}
