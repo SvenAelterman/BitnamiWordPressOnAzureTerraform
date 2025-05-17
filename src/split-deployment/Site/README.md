@@ -28,7 +28,11 @@ Create a variables file, if desired. The name is entirely up to you, but you mig
 # File: vars.math.tfvars
 
 site_name                   = "math"
+
+# This will use the outputs from the remote Terraform state of the Foundation deployment as input values
+# If set to false, all output values from the Foundation deployment will need to be specified as variables here.
 use_foundation_remote_state = true
+
 # ...
 # Specify more variables here
 ```
