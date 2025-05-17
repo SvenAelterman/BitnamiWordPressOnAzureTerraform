@@ -29,13 +29,16 @@ module "appservice" {
   kind = "webapp"
 
   site_config = {
-    http2_enabled          = true
-    vnet_route_all_enabled = true
+    http2_enabled                                 = true
+    vnet_route_all_enabled                        = true
+    container_registry_use_managed_identity       = true
+    container_registry_managed_identity_client_id = module.id.client_id
+    // TODO: Pull image over VNet after setting up network restrictions on the ACR
 
     application_stack = {
       docker = {
-        docker_image_name   = "bitnami/wordpress:6.7.2" // TODO: Variable for container image
-        docker_registry_url = "https://index.docker.io" // TODO: Variable or local for container registry URL
+        docker_image_name   = "${local.image_name}:${local.image_tag}"
+        docker_registry_url = local.container_registry_url
       }
     }
   }
@@ -53,7 +56,7 @@ module "appservice" {
     # WORDPRESS_ENABLE_REVERSE_PROXY="yes" // When using Azure Front Door?
 
     WORDPRESS_ENABLE_HTTPS = "no" // App Service should not use end-to-end TLS between the frontend and the instance anyway
-    WORDPRESS_BLOG_NAME    = "${var.environment} Site"
+    WORDPRESS_BLOG_NAME    = "${var.site_name} ${var.environment} Site"
     WORDPRESS_EMAIL        = "sven@aelterman.cloud"
     WORDPRESS_FIRST_NAME   = "Sven"
     WORDPRESS_LAST_NAME    = "Aelterman"

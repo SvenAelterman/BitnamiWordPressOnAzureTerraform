@@ -1,19 +1,17 @@
-moved {
-  from = local_file.all_in_one_backend_configs
-  to   = local_file.backend_configs
-}
-resource "local_file" "backend_configs" {
-  for_each = local.backend_config_folders
-
-  filename = "${each.value}/backend.tf"
+resource "local_file" "remote_data" {
+  filename = "${path.module}/../split-deployment/site/data_remote_state.tf"
 
   content = <<EOF
-terraform {
-  backend "azurerm" {
+// Values from ../Foundation/backend.tf
+data "terraform_remote_state" "foundation_state" {
+  count   = var.use_foundation_remote_state ? 1 : 0
+  backend = "azurerm"
+
+  config = {
     resource_group_name  = "${var.resource_group_name}"
     storage_account_name = "${module.storage.name}"
     container_name       = "${split("/", module.storage.containers.tfstate.id)[12]}"
-    key                  = "${each.key}.tfstate"
+    key                  = "foundation.tfstate"
     use_azuread_auth     = true
   }
 }

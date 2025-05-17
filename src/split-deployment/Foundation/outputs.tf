@@ -40,3 +40,27 @@ output "virtual_network_resource_group_name" {
 output "subnet_name" {
   value = module.vnet.subnets["AppServiceSubnet"].name
 }
+
+output "custom_image_name" {
+  value = null_resource.docker_image.triggers.image_name
+}
+
+output "custom_image_tag" {
+  value = null_resource.docker_image.triggers.image_tag
+}
+
+output "container_registry_name" {
+  value = module.container_registry.name
+}
+
+output "container_registry_resource_group_name" {
+  value = module.container_registry.resource.resource_group_name
+}
+
+output "subscription_id" {
+  value = data.azurerm_client_config.current.subscription_id
+}
+
+output "location" {
+  value = var.location
+}
