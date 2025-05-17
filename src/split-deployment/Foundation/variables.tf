@@ -82,13 +82,13 @@ variable "secret_expiration_date_seed" {
 
 variable "custom_image_tag" {
   type        = string
-  description = "The tag for the custom image to be used in the App Service."
-  default     = "6.7.2"
+  description = "The tag for the custom image to be used in the App Service. This should be tag (version) of the Bitnami WordPress image to be used as the basis."
+  default     = "6.8.1"
 }
 
 variable "custom_image_name" {
   type        = string
-  description = "The name of the custom image to be used in the App Service."
+  description = "The name of the custom image to be used in the App Service. This will be the name of the image in the Azure Container Registry."
   default     = "this-org/wordpress"
 }
 

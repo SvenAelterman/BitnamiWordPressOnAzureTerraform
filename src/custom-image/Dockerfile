@@ -1,9 +1,11 @@
-ARG BITNAMI_VERSION=6.7.2
+ARG BITNAMI_VERSION=6.8.1
 FROM bitnami/wordpress:${BITNAMI_VERSION}
 
 # Ref: https://learn.microsoft.com/azure/app-service/configure-custom-container?tabs=debian&pivots=container-linux#enable-ssh
 
 # Bitnami's image is set to run as USER 1001, but we need to install packages and run SSH as root
+# Ignore Trivy's finding that the container is running as root; we have to for App Service SSH to work
+#trivy:ignore:AVD-DS-0002
 USER root
 
 # Use a custom entrypoint script which will start SSH and then run the original entrypoint script / CMD
