@@ -1,6 +1,8 @@
 # Builds a custom WordPress image for use in Azure App Service based on the Bitnami WordPress image.
 # Using a null resource with an AZ CLI command so we don't have to take a dependency on Docker nor on the third-party Docker provider.
 # Ref: https://github.com/karlospn/how-to-push-a-container-image-into-acr-using-terraform/blob/main/src/using_null_resource_with_az_cli/main.tf
+# Also, the null resource means that when the image_tag is updated to a later version, existing custom image tags will not be deleted, 
+# which is important because they might still be in use by some sites.
 
 resource "null_resource" "docker_image" {
   triggers = {
@@ -13,7 +15,7 @@ resource "null_resource" "docker_image" {
   }
 
   provisioner "local-exec" {
-    command     = "az account set --subscription ${data.azurerm_client_config.current.subscription_id} && az acr build -t ${self.triggers.image_name}:${self.triggers.image_tag} -r ${self.triggers.registry_name} -f ${self.triggers.dockerfile_path} ${self.triggers.dockerfile_context}"
+    command     = "az account set --subscription ${data.azurerm_client_config.current.subscription_id} && az acr build --build-arg BITNAMI_VERSION=${self.triggers.image_tag} -t ${self.triggers.image_name}:${self.triggers.image_tag} -r ${self.triggers.registry_name} -f ${self.triggers.dockerfile_path} ${self.triggers.dockerfile_context}"
     interpreter = ["cmd", "/c"]
   }
 
