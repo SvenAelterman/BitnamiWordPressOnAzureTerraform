@@ -18,7 +18,7 @@ module "mysql" {
   resource_group_name = module.db_rg.name
   tags                = var.tags
 
-  sku_name      = "GP_Standard_D4ads_v5"
+  sku_name      = "GP_Standard_D2ds_v4"
   zone          = "1"
   mysql_version = "8.0.21"
 
